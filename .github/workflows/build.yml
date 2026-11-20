@@ -126,6 +126,12 @@ jobs:
         # multilib: arm/ia32 (32 位目标) 的 host 工具链用 -m32 编译, 需要 32 位 glibc/libstdc++ 头文件
         run: sudo apt-get update && sudo apt-get install -y ninja-build xz-utils patch gcc-multilib g++-multilib
 
+      # runner 预装 Python 3.14, 老 node (如 24.12) 的 configure 只认 <=3.13 —
+      # 钉 3.12 供 build.sh/configure 的 python3 使用
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Build
         env:
           # 直接传解析后的完整版本, 与 cache key 保持一致 (build.sh 不再重复解析)
